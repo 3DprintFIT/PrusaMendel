@@ -1,4 +1,4 @@
-// FIT Mendel  v2.5
+// FIT Mendel
 // X-end prototype
 // GNU GPL v3
 // Marek Žehra
@@ -15,11 +15,12 @@ module xend(closed_end=true, linear_bearing=false)
 	//if(linear_bearing==false) bushing();	
 	
 	//teardrop(r=smooth_bar_diameter);
-	module_height = 10;
+	module_height = smooth_bar_diameter + 2 * thin_wall;
+	
 	translate([0,0,module_height/2])difference(){
 		cube(size=[50,55,module_height], center = true);
 		//bearing cut
-		translate([0,0,module_height/2-3.5/2+0.1])#cube(size=[20,51,3.5], center = true);
+		translate([0,0,module_height/2-3.5/2+0.1])#cube(size=[19.8,51,3.5], center = true);
 	}
 	
 	
