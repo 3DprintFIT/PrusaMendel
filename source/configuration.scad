@@ -13,7 +13,7 @@
 // Uncomment for metric settings
 // METRIC METRIC METRIC METRIC METRIC METRIC METRIC METRIC 
 
-include <metric.scad>;
+include <inc/metric.scad>;
 
 // CUSTOM CUSTOM CUSTOM CUSTOM CUSTOM CUSTOM CUSTOM CUSTOM CUSTOM
 

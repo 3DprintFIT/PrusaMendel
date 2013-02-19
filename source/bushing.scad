@@ -225,8 +225,8 @@ module z_linear_bearings(){
 module ziptie(){
 difference(){
 translate(v=[0,0,0]) cylinder(h = 3.9, r=lm8uu_diameter);
-translate(v=[0,0,0]) cylinder(h = 5, r=lm8uu_diameter-3, $fn=50);
-translate(v=[0,0,3]) cylinder(h = 1, r1=lm8uu_diameter-3, r2=lm8uu_diameter, $fn=50);
+translate(v=[0,0,-0.5]) cylinder(h = 5, r=lm8uu_diameter-3, $fn=50);
+translate(v=[0,0,3]) cylinder(h = 1, r1=lm8uu_diameter-3, $fn=50);
 }}
 
 
