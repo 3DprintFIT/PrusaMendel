@@ -47,10 +47,10 @@ less_idler_bolt_dist = 0;
 ////////// RENDER EXTRUDER //////////////////////////////////////////////////////////////
 //wade(hotend_mount=groovemount, legacy_mount=false);
 //wade(hotend_mount=reprapfaborg_mount, legacy_mount=false);
-//wade(hotend_mount=jhead_mount, legacy_mount=false);
+wade(hotend_mount=jhead_mount, legacy_mount=false);
 //wade(hotend_mount=arcol_mount, legacy_mount=false);
 //wade(hotend_mount=grrf_peek_mount, legacy_mount=false);
-wade(legacy_mount=false);
+//wade(legacy_mount=false);
 
 ////////// RENDER BEARING WASHER ///////////////////////////////////////////////////
 //translate([-15,45,0])								// POSITIONING
@@ -170,7 +170,7 @@ hole_for_608=22.6;
 
 block_top_right=[wade_block_width,wade_block_height];
 
-layer_thickness=0.25;
+layer_thickness=0.3;
 filament_feed_hole_d=3.5;
 filament_diameter=3;
 filament_feed_hole_offset=filament_diameter+1.5;
@@ -489,13 +489,13 @@ module block_holes(legacy_mount=false){
 			cube([m4_wrench+0.4,10,idler_nut_thickness],center=true);
 
 			// screw holes 30°
-			//for(tilt=[1:6]){
-			//	translate([0,0,(wade_block_width-idler_nut_trap_depth+idler_nut_thickness/2)])
-			//	rotate([tilt*5,0,0])
-			//	rotate([0,0,30])
-			//	translate([0,0,-28])
-			//	cylinder(r=idler_mounting_hole_diameter/2,h=wade_block_depth+10,$fn=6);
-			//}
+			for(tilt=[1:6]){
+				translate([0,0,(wade_block_width-idler_nut_trap_depth+idler_nut_thickness/2)])
+				rotate([tilt*5,0,0])
+				rotate([0,0,30])
+				translate([0,0,-28])
+				cylinder(r=idler_mounting_hole_diameter/2,h=wade_block_depth+10,$fn=6);
+			}
 
 			// nut traps 30°
 			//translate([0,0,wade_block_width-idler_nut_trap_depth+idler_nut_thickness/2])
@@ -503,7 +503,7 @@ module block_holes(legacy_mount=false){
 			//	rotate([tilt_nut*5,0,0])
 			//	rotate([0,0,30])
 //				cylinder(r=m4_nut_diameter/2,h=idler_nut_thickness,$fn=6);
-				nut_trap(m4_wrench,idler_nut_thickness);
+				//nut_trap(m4_wrench,idler_nut_thickness);
 				
 			
 
