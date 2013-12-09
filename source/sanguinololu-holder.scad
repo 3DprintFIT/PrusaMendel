@@ -1,65 +1,50 @@
-// PRUSA Mendel  
-// Holder for Sanguinololu
-// GNU GPL v3
-// Josef Průša
-// josefprusa@me.com
-// prusadjs.cz
-// http://www.reprap.org/wiki/Prusa_Mendel
-// http://github.com/prusajr/PrusaMendel
-
-include <configuration.scad>
-
-/**
- * @id endstop-holder
- * @name Endstop holder
- * @category Printed
- * @using 1 m3x20xhex
- * @using 1 m3nut
- * @using 2 m3washer
- */
-module endstop(){
-outer_diameter = m8_diameter/2+3.3;
-screw_hole_spacing = 43;
-opening_size = m8_diameter-1.5; //openingsize
-
-difference(){
-	union(){
+wall_thickness = 2;
+M8_dia = 8;
+M3_dia = 3;
+M3_nut_dia = 5.5;
+// distance between holes on electronics
+hole_distance = 94;
+// distance between rods on printer
+rod_distance = 147.5;
 
 
-		translate([outer_diameter, outer_diameter, 0]) cylinder(h =10, r = outer_diameter, $fn = 20);
-		translate([outer_diameter, 0, 0]) cube([15.5,outer_diameter*2,10]);
-		
-		//standoffs
-		translate([-4-3, -3, 0]) cube([6,5,10]);
-		translate([-4-3-screw_hole_spacing, -3, 0]) cube([6,5,10]);
-		
-		translate([-27-25, 0, 0]) cube([35+40, 4, 10]);
-		translate([17, 17.5, 5]) rotate([90, 0, 0]) #cylinder(h =5, r = 5.77, $fn = 6);
-		
-		
-		translate([-(4+screw_hole_spacing), 0,0]) translate([0, 7, 5]) rotate([90, 0, 0]) #cylinder(h =5, r = 5.77, $fn = 6);
-		translate([-4, 0,0]) translate([0, 7, 5]) rotate([90, 0, 0]) #cylinder(h =5, r = 5.77, $fn = 6);
+module rod_catch(M8_dia = 8,wall_thickness = 2,length = 10,zip_width = 2){
+	difference(){
+		cube(size = [length,M8_dia + 2*wall_thickness,M8_dia/2 + 2*wall_thickness],center=true);
+		translate([0,0,1.5*wall_thickness])rotate([0,90,0])hull(){
+			cylinder(r=M8_dia/2,h=length+1,center=true);
+			translate([-3,0,0])cylinder(r=M8_dia/2,h=length+1,center=true);
+		}
+		translate([0,0,1.6*wall_thickness])rotate([0,90,0]){
+			difference(){
+				cylinder(r = M8_dia/2 + 3*wall_thickness,h=zip_width,center=true);
+				cylinder(r = M8_dia/2 + wall_thickness + 0.2,h=zip_width,center=true);
+			}
+		}
+	}
+}
+
+module parametric_holder(M8_dia = 8, M3_dia = 3, M3_nut_dia = 5.5,wall_thickness = 2,rod_distance = 150,hole_distance = 100, zip_width = 2){
+	width = zip_width + M3_nut_dia + wall_thickness;
+
+	difference(){
+		union(){
+			cube(size = [width, rod_distance + M8_dia + wall_thickness*2, wall_thickness],center = true);
+			translate([0,-hole_distance/2,wall_thickness])
+			cube(size = [width, M3_dia + wall_thickness, 2*wall_thickness],center = true);
+			translate([0,hole_distance/2,wall_thickness])
+			cube(size = [width, M3_dia + wall_thickness, 2*wall_thickness],center = true);
+			}
+		//screw holes
+		translate([0,-hole_distance/2,wall_thickness])cylinder(r = M3_dia/2, h = 4*wall_thickness, center = true, $fn=10);
+	translate([0,hole_distance/2,wall_thickness])cylinder(r = M3_dia/2, h = 4*wall_thickness, center = true, $fn=10);
 	}
 
-
-
-
-	translate([9, outer_diameter-opening_size/2, 0]) cube([18,opening_size,20]);
-	translate([outer_diameter, outer_diameter, 0]) cylinder(h =20, r = m8_diameter/2, $fn = 18);
-
-	//Securing hole
-	translate([17, 17, 5]) rotate([90, 0, 0]) cylinder(h =20, r = m3_diameter/2, $fn = 10);
-	translate([17, 19.5, 5]) rotate([90, 0, 0]) #cylinder(h =5, r = m3_nut_diameter/2, $fn = 6);
-
-	translate([17, 17, 5]) rotate([90, 0, 0]) #cylinder(h =20, r = m3_diameter/2, $fn = 10);
-	translate([-4, 17, 5]) rotate([90, 0, 0]) cylinder(h =20, r = m3_diameter/2, $fn = 10);
-	translate([-(4+screw_hole_spacing), 17, 5]) rotate([90, 0, 0]) #cylinder(h =20, r = m3_diameter/2, $fn = 10);
-	
-	
-	
-	translate([-4, 9, 5]) rotate([90, 0, 0]) #cylinder(h =5, r = m3_nut_diameter/2, $fn = 6);
-	translate([-(4+screw_hole_spacing), 9, 5]) rotate([90, 0, 0]) #cylinder(h =5, r = m3_nut_diameter/2, $fn = 6);
+	translate([0,rod_distance/2,wall_thickness*2.5])rod_catch(M8_dia = M8_dia,wall_thickness = wall_thickness,length = width, zip_width = zip_width);
+	translate([0,-rod_distance/2,wall_thickness*2.5])rod_catch(M8_dia = M8_dia,wall_thickness = wall_thickness,length = width, zip_width = zip_width);
 }
-}
-endstop();
+
+rotate([0,90,-45])parametric_holder(M8_dia,M3_dia,M3_nut_dia,wall_thickness,rod_distance,hole_distance,3);
+
+translate([0,16,0])rotate([0,90,-45])parametric_holder(M8_dia,M3_dia,M3_nut_dia,wall_thickness,rod_distance,hole_distance,3);
 
